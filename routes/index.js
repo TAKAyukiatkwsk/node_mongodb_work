@@ -11,15 +11,15 @@ exports.index = function(req, res){
 
   conn.once('open', function() {
     console.log('connected!');
-  });
 
-  var Admin = mongoose.mongo.Admin;
-  var admin = new Admin(conn.db);
+    var Admin = mongoose.mongo.Admin;
+    var admin = new Admin(conn.db);
 
-  admin.listDatabases(function(err, dbs) {
-    console.log(dbs);
-    res.render('index', { title: 'Express', dbs: dbs.databases});
-    conn.close();
+    admin.listDatabases(function(err, dbs) {
+      console.log(dbs);
+      res.render('index', { title: 'Express', dbs: dbs.databases});
+      conn.close();
+    });
   });
 };
 
