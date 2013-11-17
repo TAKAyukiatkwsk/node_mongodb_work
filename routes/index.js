@@ -17,7 +17,7 @@ exports.index = function(req, res){
 
     admin.listDatabases(function(err, dbs) {
       console.log(dbs);
-      res.render('index', { title: 'Express', dbs: dbs.databases});
+      res.render('index', { title: 'node MongoDB work', dbs: dbs.databases});
       conn.close();
     });
   });
@@ -30,7 +30,7 @@ exports.dbs = function(req, res) {
     console.log('connected!');
     conn.db.collectionNames(function(err, items) {
       console.log(items);
-      res.render('dbs', { database: req.params.name, collections: items });
+      res.render('dbs', { title: req.params.name, collections: items });
       conn.close();
     });
   });
