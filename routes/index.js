@@ -30,7 +30,7 @@ exports.dbs = function(req, res) {
     console.log('connected!');
     conn.db.collectionNames(function(err, items) {
       console.log(items);
-      res.render('dbs', { database: req.params.name });
+      res.render('dbs', { database: req.params.name, collections: items });
       conn.close();
     });
   });
