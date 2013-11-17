@@ -4,23 +4,34 @@
  */
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost');
-var conn = mongoose.connection;
-
-conn.once('open', function() {
-  console.log('connected!');
-});
-
-var Admin = mongoose.mongo.Admin;
-var admin = new Admin(conn.db);
 
 exports.index = function(req, res){
+  mongoose.connect('mongodb://localhost');
+  var conn = mongoose.connection;
+
+  conn.once('open', function() {
+    console.log('connected!');
+  });
+
+  var Admin = mongoose.mongo.Admin;
+  var admin = new Admin(conn.db);
+
   admin.listDatabases(function(err, dbs) {
     console.log(dbs);
     res.render('index', { title: 'Express', dbs: dbs.databases});
+    conn.close();
   });
 };
 
 exports.dbs = function(req, res) {
-  res.render('dbs', { database: req.params.name });
+  console.log(req.params.name);
+  var conn = mongoose.createConnection('mongodb://localhost/' + req.params.name);
+  conn.once('open', function() {
+    console.log('connected!');
+    conn.db.collectionNames(function(err, items) {
+      console.log(items);
+      res.render('dbs', { database: req.params.name });
+      conn.close();
+    });
+  });
 };
