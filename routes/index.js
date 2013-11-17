@@ -20,3 +20,7 @@ exports.index = function(req, res){
     res.render('index', { title: 'Express', dbs: dbs.databases});
   });
 };
+
+exports.dbs = function(req, res) {
+  res.render('dbs', { database: req.params.name });
+};
