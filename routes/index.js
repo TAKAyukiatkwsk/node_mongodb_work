@@ -35,3 +35,18 @@ exports.dbs = function(req, res) {
     });
   });
 };
+
+exports.collection = function(req, res) {
+  console.log(req.params);
+  var db = mongoose.createConnection('mongodb://localhost/' + req.params.name);
+  db.once('open', function() {
+    console.log('connected!');
+    var Schema = mongoose.Schema;
+    var model = db.model(req.params.collection, new Schema({}));
+
+    model.find({}, null, { limit: 5 }, function(err, docs) {
+      console.log(docs);
+      res.render('collection', { docs: docs });
+    });
+  });
+};
